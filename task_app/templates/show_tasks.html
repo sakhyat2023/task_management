@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="py-3">All Tasks</h1>
+<div class="row g-4">
+  {% for task in tasks %}
+  <div class="col-lg-4 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">ID: {{task.id}}</h5>
+        <h6 class="card-title">Title: {{task.task_title}}</h5>
+        <p class="card-text">
+          <span class="fw-bold">Date: </span>
+          <span>{{task.assign_date | date:"j- M-Y"}}</span>
+        </p>
+        <p class="card-text text-break">{{task.task_description}}</p>
+        <div class="d-flex gap-3">
+          {% for category in task.category.all %}
+          <p class="bg-dark text-white py-1 px-2 rounded-pill">
+            {{category.cta_name}}
+          </p>
+          {% endfor %}
+        </div>
+        {% if task.is_completed %}
+        <p
+          class="bg-success text-white fw-bold text-center py-1 px-2 rounded-3"
+        >
+          Completed
+        </p>
+        {% else %}
+        <div class="d-flex gap-2">
+          <a href="{% url 'edit_task' task.id %}" class="btn btn-secondary"
+            >Edit</a
+          >
+          <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
